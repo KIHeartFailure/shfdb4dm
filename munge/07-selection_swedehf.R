@@ -45,13 +45,24 @@ rsdata <- rsdata %>%
 
 flow <- rbind(flow, c("Remove posts < 18 years", nrow(rsdata)))
 
+rsdata <- left_join(rsdata,
+  dors %>% select(lopnr, sos_deathdtm),
+  by = "lopnr"
+)
+
 rsdata <- rsdata %>%
-  filter((shf_indexdtm < shf_deathdtm | is.na(shf_deathdtm))) # enddate prior to indexdate CHECK THIS when get sos data!!!!
+  filter((shf_indexdtm < sos_deathdtm | is.na(sos_deathdtm))) %>%
+  select(-sos_deathdtm)
 
 flow <- rbind(flow, c("Remove posts with end of follow-up <= index date (died in hospital)", nrow(rsdata)))
 
 rsdata <- rsdata %>%
-  filter(shf_indexdtm <= global_endcohort) # change THIS when know follow-up!!!!
+  filter(shf_indexdtm > ymd("2000-01-01"))
+
+flow <- rbind(flow, c("Remove posts with with index date < 2000-01-01", nrow(rsdata)))
+
+rsdata <- rsdata %>%
+  filter(shf_indexdtm <= global_endcohort)
 
 flow <- rbind(flow, c(paste0("Remove posts with with index date > ", global_endcohort), nrow(rsdata)))
 

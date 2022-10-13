@@ -4,7 +4,7 @@ rsdata <- rsdata %>%
     shf_nyha_cat = factor(case_when(
       shf_nyha %in% c("I", "II") ~ 1,
       shf_nyha %in% c("III", "IV") ~ 2
-    ), levels = 1:2, labels = c("I - II", "III-IV")),
+    ), levels = 1:2, labels = c("I-II", "III-IV")),
     shf_age_cat = factor(case_when(
       is.na(shf_age) ~ NA_real_,
       shf_age < 75 ~ 1,
@@ -21,18 +21,15 @@ rsdata <- rsdata %>%
     levels = 1:3,
     labels = c("HFrEF", "HFmrEF", "HFpEF")
     ),
-    shf_smoking_cat = factor(case_when(
-      shf_smoking %in% c("Former", "Never") ~ 0,
-      shf_smoking %in% c("Current") ~ 1
-    ),
-    levels = 0:1,
-    labels = c("No", "Yes")
-    ),
-    shf_anemia = case_when(
-      is.na(shf_hb) | is.na(shf_sex) ~ NA_character_,
-      shf_sex == "Female" & shf_hb < 120 | shf_sex == "Male" & shf_hb < 130 ~ "Yes",
-      TRUE ~ "No"
-    ),
+    shf_smoke_cat = ynfac(case_when(
+      shf_smoke %in% c("Former", "Never") ~ 0,
+      shf_smoke %in% c("Current") ~ 1
+    )),
+    shf_anemia = ynfac(case_when(
+      is.na(shf_hb) | is.na(shf_sex) ~ NA_real_,
+      shf_sex == "Female" & shf_hb < 120 | shf_sex == "Male" & shf_hb < 130 ~ 1,
+      TRUE ~ 0
+    )),
     shf_map_cat = case_when(
       shf_map <= 90 ~ "<=90",
       shf_map > 90 ~ ">90"
@@ -75,64 +72,45 @@ rsdata <- rsdata %>%
     levels = 1:2,
     labels = c(">=60", "<60")
     ),
-    shf_sos_com_af = case_when(
+    shf_sos_com_af = ynfac(case_when(
       sos_com_af == "Yes" |
         shf_af == "Yes" |
-        shf_ekg == "Atrial fibrillation" ~ "Yes",
-      TRUE ~ "No"
-    ),
-    shf_sos_com_ihd = case_when(
+        shf_ekg == "Atrial fibrillation" ~ 1,
+      TRUE ~ 0
+    )),
+    shf_sos_com_ihd = ynfac(case_when(
       sos_com_ihd == "Yes" |
         shf_revasc == "Yes" |
         sos_com_pci == "Yes" |
-        sos_com_cabg == "Yes" ~ "Yes",
-      TRUE ~ "No"
-    ),
-    shf_sos_com_hypertension = case_when(
+        sos_com_cabg == "Yes" ~ 1,
+      TRUE ~ 0
+    )),
+    shf_sos_com_hypertension = ynfac(case_when(
       shf_hypertension == "Yes" |
-        sos_com_hypertension == "Yes" ~ "Yes",
-      TRUE ~ "No"
-    ),
-    shf_sos_com_diabetes = case_when(
+        sos_com_hypertension == "Yes" ~ 1,
+      TRUE ~ 0
+    )),
+    shf_sos_com_diabetes = ynfac(case_when(
       shf_diabetes == "Yes" |
-        sos_com_diabetes == "Yes" ~ "Yes",
-      TRUE ~ "No"
-    ),
-    shf_sos_com_valvular = case_when(
+        sos_com_diabetes == "Yes" ~ 1,
+      TRUE ~ 0
+    )),
+    shf_sos_com_valvular = ynfac(case_when(
       shf_valvedisease == "Yes" |
-        sos_com_valvular == "Yes" ~ "Yes",
-      TRUE ~ "No"
-    ),
+        sos_com_valvular == "Yes" ~ 1,
+      TRUE ~ 0
+    )),
     shf_followuplocation_cat = if_else(shf_followuplocation %in% c("Primary care", "Other"), "Primary care/Other",
       as.character(shf_followuplocation)
-    )
-  )
-
-
-## income
-inc <- rsdata %>%
-  group_by(lopnr, shf_indexyear) %>%
-  slice(1) %>%
-  ungroup() %>%
-  group_by(shf_indexyear) %>%
-  summarise(incsum = list(enframe(quantile(scb_dispincome,
-    probs = c(0.33, 0.66),
-    na.rm = TRUE
-  )))) %>%
-  unnest(cols = c(incsum)) %>%
-  spread(name, value)
-
-rsdata <- left_join(
-  rsdata,
-  inc,
-  by = "shf_indexyear"
-) %>%
-  mutate(
-    scb_dispincome_cat = case_when(
-      scb_dispincome < `33%` ~ 1,
-      scb_dispincome < `66%` ~ 2,
-      scb_dispincome >= `66%` ~ 3
     ),
-    scb_dispincome_cat = factor(scb_dispincome_cat, labels = c("Low", "Medium", "High"))
-  ) %>%
-  select(-`33%`, -`66%`)
+    sos_out_deathcvhosphf = ynfac(case_when(
+      sos_out_deathcv == "Yes" |
+        sos_out_hosphf == "Yes" ~ 1,
+      TRUE ~ 0
+    )),
+    sos_out_deathhosphf = ynfac(case_when(
+      sos_out_death == "Yes" |
+        sos_out_hosphf == "Yes" ~ 1,
+      TRUE ~ 0
+    ))
+  )

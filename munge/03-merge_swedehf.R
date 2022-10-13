@@ -430,7 +430,7 @@ dummyfunc <- function(var) {
 
 impvars <- c(
   "shf_diabetes", "shf_diabetestype", "shf_hypertension", "shf_af", "shf_lungdisease", "shf_valvedisease",
-  "shf_dcm", "shf_revasc", "shf_valvesurgery",
+  "shf_dcm", "shf_revasc", "shf_valvesurgery", "shf_primaryetiology",
   "shf_durationhf", "shf_height"
 )
 
@@ -488,6 +488,11 @@ rsdata <- rsdata %>%
       is.na(shf_valvesurgery_org) &
         (shf_type == "Index" | shf_source != "New SHF"), NA
     ),
+    shf_primaryetiology = replace(
+      shf_primaryetiology,
+      is.na(shf_primaryetiology_org) &
+        (shf_type == "Index" | shf_source != "New SHF"), NA
+    ), 
     shf_height = replace(
       shf_height,
       is.na(shf_height_org) &
