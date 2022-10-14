@@ -4,12 +4,13 @@ DM
 - check diff against prev version (checks/version)
 - update metadata/meta_variables
 - git commit and push change
-- release Tryck Releases https://github.com/KIHeartFailure/shfdb4dm. Draft a new release. Kolla https://zenodo.org/record/4636829#.YFyNRNKg-Uk
+(- release Tryck Releases https://github.com/KIHeartFailure/shfdb4dm. Draft a new release. Kolla https://zenodo.org/record/4636829#.YFyNRNKg-Uk)
 
 Webb
-- place meta_varaibles here: C:\Users\Lina\STATISTIK\Projects\20210525_shfdb4\webb\static\files
+- place meta_variables here: C:\Users\Lina\STATISTIK\Projects\20210525_shfdb4\webb\static\files
 - change deskstatforshiny (and check if looks ok)
 - describe change in versions.md
+- remember blogdown::build_site (or build_site(build_rmd = TRUE)), https://www.rstudio.com/blog/blogdown-v1.0/
 - commit and push
 - check modifications implemented in deskstatforshiny, deskstat, versions, dm, ...
 
