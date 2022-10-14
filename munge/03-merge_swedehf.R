@@ -59,6 +59,14 @@ rsdata <- rsdata %>%
       TYPE_old == 1 | TYPE %in% c("FOLLOWUP", "YEARLY_FOLLOWUP") ~ "Follow-up"
     ),
     shf_age = coalesce(d_age_at_VISIT_DATE, d_alder),
+    shf_age_cat = factor(case_when(
+      is.na(shf_age) ~ NA_real_,
+      shf_age < 75 ~ 1,
+      shf_age >= 75 ~ 2
+    ),
+    levels = 1:2,
+    labels = c("<75", ">=75")
+    ),
     shf_civilstatus = case_when(
       CIVILSTATUS == 1 | CIVIL_STATUS == "PARTNER" ~ "Married/cohabitating",
       CIVILSTATUS == 2 | CIVIL_STATUS == "SINGLE" ~ "Single"
@@ -67,10 +75,10 @@ rsdata <- rsdata %>%
       BOFORM == 1 | RESIDENCE_TYPE == "OWN_HOME" ~ "Own home",
       BOFORM == 2 | RESIDENCE_TYPE == "OTHER_HOME" ~ "Other home"
     ),
-    shf_location = case_when(
-      VARDGIVARE %in% c(2, 3) | LOCATION == "IX_OV" | TYPE %in% c("FOLLOWUP", "YEARLY_FOLLOWUP") ~ "Out-patient",
-      VARDGIVARE == 1 | LOCATION == "IX_SV" ~ "In-patient"
-    ),
+    shf_location = factor(case_when(
+      VARDGIVARE %in% c(2, 3) | LOCATION == "IX_OV" | TYPE %in% c("FOLLOWUP", "YEARLY_FOLLOWUP") ~ 1,
+      VARDGIVARE == 1 | LOCATION == "IX_SV" ~ 2
+    ), levels = 1:2, labels = c("Out-patient", "In-patient")),
     shf_centre = coalesce(CENTRENAME, sjhnewrs),
     shf_centreregion = coalesce(LANDSTING, regionnewrs),
     shf_centretype = case_when(
@@ -82,6 +90,10 @@ rsdata <- rsdata %>%
       ROKNING == 2 | ROKVANOR %in% c(1, 2) | SMOKING_HABITS %in% c("FORMER_SMOKER", "STOP_LESS_6_MONTHS", "STOP_MORE_6_MONTHS") ~ "Former",
       ROKNING == 3 | ROKVANOR %in% c(3, 4) | SMOKING_HABITS %in% c("YES", "NOT_DAILY", "DAILY") ~ "Current"
     ),
+    shf_smoke_cat = ynfac(case_when(
+      shf_smoke %in% c("Former", "Never") ~ 0,
+      shf_smoke %in% c("Current") ~ 1
+    )),
 
     # https://www.iq.se/fakta-om-alkohol/riskbruk-och-beroende/
     # För att ange ett riskbruk i mängd alkoholdryck används ofta den här definitionen (ett standardglas innehåller 12 gram alkohol):
@@ -141,15 +153,26 @@ rsdata <- rsdata %>%
       NYHA == 3 | FUNCTION_CLASS_NYHA == "NYHA_III" ~ "III",
       NYHA == 4 | FUNCTION_CLASS_NYHA == "NYHA_IV" ~ "IV"
     ),
+    shf_nyha_cat = factor(case_when(
+      shf_nyha %in% c("I", "II") ~ 1,
+      shf_nyha %in% c("III", "IV") ~ 2
+    ), levels = 1:2, labels = c("I-II", "III-IV")),
     shf_killip = str_replace_all(str_replace_all(str_to_title(KILLIP_CLASS), "_", " "), "hf", "HF"),
     shf_efproc = LVEF_PERCENT,
-    shf_ef = case_when(
+    shf_ef = factor(case_when(
       d_lvefprocent == 1 | LVEF_SEMIQUANTITATIVE == "NORMAL" | LVEF_PERCENT >= 50 ~ 1,
       d_lvefprocent == 2 | LVEF_SEMIQUANTITATIVE == "MILD" | LVEF_PERCENT >= 40 ~ 2,
       d_lvefprocent == 3 | LVEF_SEMIQUANTITATIVE == "MODERATE" | LVEF_PERCENT >= 30 ~ 3,
       d_lvefprocent == 4 | LVEF_SEMIQUANTITATIVE == "SEVERE" | LVEF_PERCENT < 30 ~ 4
+    ), levels = 1:4, labels = c(">=50", "40-49", "30-39", "<30")),
+    shf_ef_cat = factor(case_when(
+      shf_ef == ">=50" ~ 3,
+      shf_ef == "40-49" ~ 2,
+      shf_ef %in% c("30-39", "<30") ~ 1
     ),
-    shf_ef = factor(shf_ef, labels = c(">=50", "40-49", "30-39", "<30")),
+    levels = 1:3,
+    labels = c("HFrEF", "HFmrEF", "HFpEF")
+    ),
     shf_weight = coalesce(WEIGHT_24H, WEIGHT, VIKT),
     shf_height = coalesce(HEIGHT, LANGD),
 
@@ -157,9 +180,32 @@ rsdata <- rsdata %>%
     shf_bpsys = coalesce(BP_SYSTOLIC_24H, BP_SYSTOLIC, BTSYSTOLISKT),
     shf_bpdia = coalesce(BP_DIASTOLIC_24H, BP_DIASTOLIC, BTDIASTOLISKT),
     shf_map = (shf_bpsys + 2 * shf_bpdia) / 3,
+    shf_map_cat = case_when(
+      shf_map <= 90 ~ "<=90",
+      shf_map > 90 ~ ">90"
+    ),
     shf_heartrate = coalesce(HEART_FREQUENCY_24H, HEART_FREQUENCY, HJARTFREKVENS),
+    shf_heartrate_cat = case_when(
+      shf_heartrate <= 70 ~ "<=70",
+      shf_heartrate > 70 ~ ">70"
+    ),
     shf_hb = coalesce(B_HB_24H, B_HB, HB),
+    shf_anemia = ynfac(case_when(
+      is.na(shf_hb) | is.na(shf_sex) ~ NA_real_,
+      shf_sex == "Female" & shf_hb < 120 | shf_sex == "Male" & shf_hb < 130 ~ 1,
+      TRUE ~ 0
+    )),
     shf_potassium = coalesce(S_POTASSIUM_24H, S_POTASSIUM, KALIUM),
+    shf_potassium_cat = factor(
+      case_when(
+        is.na(shf_potassium) ~ NA_real_,
+        shf_potassium < 3.5 ~ 2,
+        shf_potassium <= 5 ~ 1,
+        shf_potassium > 5 ~ 3
+      ),
+      levels = 1:3,
+      labels = c("normakalemia", "hypokalemia", "hyperkalemia")
+    ),
     shf_sodium = coalesce(S_SODIUM_24H, S_SODIUM, NATRIUM),
     shf_crea = coalesce(S_CREATININE_24H, S_CREATININE, KREATININ),
     # eGFR according to CKD-EPI 2021 https://www.nejm.org/doi/full/10.1056/NEJMoa2102953
@@ -167,6 +213,14 @@ rsdata <- rsdata %>%
     tmp_a = if_else(shf_sex == "Female", -0.241, -0.302),
     tmp_add = if_else(shf_sex == "Female", 1.012, 1),
     shf_gfrckdepi = 142 * pmin(shf_crea / 88.4 / tmp_k, 1)^tmp_a * pmax(shf_crea / 88.4 / tmp_k, 1)^-1.200 * 0.9938^shf_age * tmp_add,
+    shf_gfrckdepi_cat = factor(case_when(
+      is.na(shf_gfrckdepi) ~ NA_real_,
+      shf_gfrckdepi >= 60 ~ 1,
+      shf_gfrckdepi < 60 ~ 2,
+    ),
+    levels = 1:2,
+    labels = c(">=60", "<60")
+    ),
     shf_ntprobnp = coalesce(NT_PROBNP_24H, NT_PROBNP, PROBNP),
     shf_bnp = coalesce(BNP_24H, BNP, BNP_old),
     shf_transferrin = P_TRANSFERRIN,
@@ -362,6 +416,14 @@ rsdata <- rsdata %>%
       "No", "Pacemaker",
       "CRT-P", "CRT-D", "ICD"
     )),
+    shf_device_cat = factor(case_when(
+      is.na(shf_device) ~ NA_real_,
+      shf_device %in% c("CRT-P", "CRT-D", "ICD") ~ 2,
+      TRUE ~ 1
+    ),
+    levels = 1:2,
+    labels = c("No", "CRT/ICD"),
+    ),
     shf_xray = factor(case_when(
       RONTGEN == 0 | CHEST_X_RAY == "NO" ~ 0,
       RONTGEN == 1 | CHEST_X_RAY == "NORMAL" ~ 1,
@@ -413,11 +475,17 @@ rsdata <- rsdata %>%
       UPPF_VARDNIVA == 2 | FOLLOWUP_HC_LEVEL == "PRIMARY_CARE" ~ 2,
       UPPF_VARDNIVA == 3 | FOLLOWUP_HC_LEVEL == "OTHER" ~ 3
     ), levels = 1:3, labels = c("Hospital", "Primary care", "Other")),
+    shf_followuplocation_cat = factor(case_when(
+      shf_followuplocation %in% c("Primary care", "Other") ~ 1,
+      shf_followuplocation %in% c("Hospital") ~ 2
+    ),
+    levels = 1:2, labels = c("Primary care/Other", "Hospital")
+    ),
     shf_qol = coalesce(LIFEQUALITY_SCORE, LIVSKVALITET),
 
     # outcomes
     shf_deathdtm = coalesce(d_befdoddtm, befdoddtm),
-    #shf_deathdtm = if_else(shf_deathdtm > global_endfollowup, as.Date(NA), shf_deathdtm)
+    # shf_deathdtm = if_else(shf_deathdtm > global_endfollowup, as.Date(NA), shf_deathdtm)
   ) %>%
   select(-starts_with("tmp_"))
 
@@ -492,7 +560,7 @@ rsdata <- rsdata %>%
       shf_primaryetiology,
       is.na(shf_primaryetiology_org) &
         (shf_type == "Index" | shf_source != "New SHF"), NA
-    ), 
+    ),
     shf_height = replace(
       shf_height,
       is.na(shf_height_org) &

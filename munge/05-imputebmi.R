@@ -55,6 +55,22 @@ rsdata <- left_join(
     shf_heightimp = coalesce(shf_height, heightmed),
     shf_bmiimp = round(shf_weight / (shf_heightimp / 100)^2, 1),
     shf_bmi = clean_outliers(shf_bmi, 8, 80),
-    shf_bmiimp = clean_outliers(shf_bmiimp, 8, 80)
+    shf_bmi_cat = factor(case_when(
+      is.na(shf_bmi) ~ NA_real_,
+      shf_bmi < 30 ~ 1,
+      shf_bmi >= 30 ~ 2
+    ),
+    levels = 1:2,
+    labels = c("<30", ">=30")
+    ),
+    shf_bmiimp = clean_outliers(shf_bmiimp, 8, 80),
+    shf_bmiimp_cat = factor(case_when(
+      is.na(shf_bmiimp) ~ NA_real_,
+      shf_bmiimp < 30 ~ 1,
+      shf_bmiimp >= 30 ~ 2
+    ),
+    levels = 1:2,
+    labels = c("<30", ">=30")
+    )
   ) %>%
   select(-shf_heightimp, -shf_age_catimp, -heightmed, -height_imp)

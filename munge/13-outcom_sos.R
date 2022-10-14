@@ -734,11 +734,11 @@ rsdata <- left_join(
   by = c("lopnr", "shf_indexdtm")
 ) %>%
   mutate(
-    sos_prevhosphf = as.numeric(shf_indexdtm - tmp_sosdtm),
-    sos_prevhosphf = case_when(
+    sos_timeprevhosphf = as.numeric(shf_indexdtm - tmp_sosdtm),
+    sos_timeprevhosphf = case_when(
       casecontrol == "Control" ~ NA_real_,
-      is.na(sos_prevhosphf) ~ NA_real_,
-      TRUE ~ sos_prevhosphf
+      is.na(sos_timeprevhosphf) ~ NA_real_,
+      TRUE ~ sos_timeprevhosphf
     )
   ) %>%
   select(-tmp_sosdtm)
@@ -792,10 +792,10 @@ rsdata <- left_join(
   mutate(
     sos_location = factor(case_when(
       !is.na(sos_location) ~ sos_location,
-      casecontrol == "Case" ~ 3,
+      casecontrol != "Control" ~ 3,
       TRUE ~ NA_real_
     ),
     levels = 1:3, labels = c("HF in-patient", "Other in-patient", "Out-patient")
     ),
-    sos_prevhosphf = if_else(sos_location == "HF in-patient", 0, sos_prevhosphf)
+    sos_timeprevhosphf = if_else(sos_location == "HF in-patient", 0, sos_timeprevhosphf)
   )

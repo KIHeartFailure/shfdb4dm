@@ -3,14 +3,15 @@
 rsdata <- rsdata %>%
   select(
     lopnr, 
-    #casecontrol, ncontrols, lopnrcase,
+    casecontrol,
+    #ncontrols, lopnrcase,
     shf_source, shf_indexdtm, shf_indexhosptime, shf_indexyear, shf_type,
     contains("shf_ef"),
     contains("shf_"),
     contains("scb_"),
     censdtm,
     sos_durationhf,
-    sos_prevhosphf,
+    sos_timeprevhosphf,
     sos_location, 
     contains("sos_com"),
     contains("sos_out"),
@@ -28,4 +29,4 @@ rsdata <- rsdata %>%
   )
 
 # create Excel where nice labels/units can be written and comments "good to know"
-write.xlsx(names(rsdata), "./metadata/tmp_meta_variables.xlsx")
+write.xlsx(data.frame(names(rsdata)), "./metadata/tmp_meta_variables.xlsx")

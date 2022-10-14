@@ -3,7 +3,7 @@
 
 rsdata <- rsdata %>%
   mutate(
-    sos_out_death = ifelse(censdtm == sos_deathdtm & !is.na(sos_deathdtm), 1, 0),
+    sos_out_death = ynfac(ifelse(censdtm == sos_deathdtm & !is.na(sos_deathdtm), 1, 0)),
     sos_outtime_death = as.numeric(censdtm - shf_indexdtm)
   )
 
