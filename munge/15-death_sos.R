@@ -14,21 +14,16 @@ rsdata <- create_deathvar(
   deathdate = sos_deathdtm,
   name = "cv",
   orsakvar = sos_deathcause,
-  orsakkod = "I|J81|K761|R57|G45",
+  orsakkod = "I|J81|K761|R570|G45",
   valsclass = "fac",
   warnings = FALSE
 )
-rsdata <- create_deathvar(
-  cohortdata = rsdata,
-  indexdate = shf_indexdtm,
-  censdate = censdtm,
-  deathdate = sos_deathdtm,
-  name = "noncv",
-  orsakvar = sos_deathcause,
-  orsakkod = "[A-F]|G(?!45)|H|J(?!81)|K(?!761)|[L-Q]|R(?!57)|[S-Z]",
-  valsclass = "fac",
-  warnings = FALSE
-)
+rsdata <- rsdata %>%
+  mutate(
+    sos_out_deathnoncv =
+      ynfac(if_else(sos_out_death == "No" | sos_out_deathcv == "Yes", 0, 1))
+  )
+
 rsdata <- create_deathvar(
   cohortdata = rsdata,
   indexdate = shf_indexdtm,
@@ -46,6 +41,8 @@ deathmeta <- metaout
 rm(metaout)
 
 rsdata <- rsdata %>%
-  mutate(sos_out_hospdeathscd = ifelse(sos_out_deathscd == "Yes" | sos_out_hospscd == "Yes", 1, 0), 
-         sos_out_hospdeathscd = ynfac(sos_out_hospdeathscd)) %>%
+  mutate(
+    sos_out_hospdeathscd = ifelse(sos_out_deathscd == "Yes" | sos_out_hospscd == "Yes", 1, 0),
+    sos_out_hospdeathscd = ynfac(sos_out_hospdeathscd)
+  ) %>%
   select(-sos_out_deathscd, -sos_out_hospscd, -sos_deathdtm)
