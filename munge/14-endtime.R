@@ -103,6 +103,25 @@ rsdata <- rsdata %>%
   filter(censdtm >= shf_indexdtm) %>% # finns XXX poster som har sos hf diagnos, migrationsdatum, dör innan de blir controller/case. delete.
   select(-shf_deathdtm)
 
+# remove controls for NPR that no longer have a case
+
+kollcasesnpr <- rsdata %>%
+  filter(casecontrol == "Case NPR")
+
+kollcasesnpr2 <- anti_join(rsdata %>% 
+                             select(lopnr, lopnrcase, casecontrol, shf_indexdtm) %>% 
+                             filter(casecontrol == "Control NPR"),
+                           kollcasesnpr %>% 
+                             select(lopnr), 
+                   by = c("lopnrcase" = "lopnr")) %>%
+  mutate(remove = 1) %>%
+  select(-lopnrcase)
+
+
+rsdata <- left_join(rsdata, kollcasesnpr2, by = c("lopnr", "shf_indexdtm", "casecontrol")) %>%
+  filter(is.na(remove)) %>%
+  select(-remove)
+
 # n controls for cases
 
 nkontroller <- rsdata %>%
