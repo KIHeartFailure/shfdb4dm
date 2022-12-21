@@ -4,7 +4,7 @@ rsdata <- rsdata %>%
   select(
     lopnr, 
     casecontrol,
-    #ncontrols, lopnrcase,
+    ncontrols, lopnrcase,
     shf_source, shf_indexdtm, shf_indexhosptime, shf_indexyear, shf_type,
     contains("shf_ef"),
     contains("shf_"),

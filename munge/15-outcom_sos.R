@@ -3,10 +3,11 @@
 # Comorbidities -----------------------------------------------------------
 
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -17,10 +18,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -31,10 +33,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -45,10 +48,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -59,10 +63,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -73,10 +78,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   opvar = OP_all,
   type = "com",
@@ -87,10 +93,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   opvar = OP_all,
@@ -103,10 +110,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -117,10 +125,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -131,10 +140,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -145,10 +155,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -159,10 +170,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -176,10 +188,11 @@ rsdata <- rsdata %>%
   mutate(sos_com_stroketia = ynfac(if_else(sos_com_stroke == "Yes" | sos_com_tia == "Yes", 1, 0)))
 
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -190,10 +203,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   opvar = OP_all,
@@ -206,10 +220,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -220,10 +235,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -234,10 +250,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   opvar = OP_all,
@@ -250,10 +267,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -264,10 +282,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -278,10 +297,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -292,10 +312,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -306,10 +327,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -320,10 +342,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -334,10 +357,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = HDIA,
   type = "com",
@@ -348,10 +372,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -362,10 +387,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   evar = ekod_all,
@@ -378,10 +404,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   opvar = OP_all,
@@ -398,10 +425,11 @@ rsdata <- create_sosvar(
 
 
 rsdata <- create_sosvar(
-  sosdata = patregrsdata %>% filter(sos_source == "sv"),
+  sosdata = patreg %>% filter(sos_source == "sv"),
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = HDIA,
   type = "out",
@@ -413,10 +441,11 @@ rsdata <- create_sosvar(
 )
 
 rsdata <- create_sosvar(
-  sosdata = patregrsdata %>% filter(sos_source == "sv"),
+  sosdata = patreg %>% filter(sos_source == "sv"),
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = HDIA,
   type = "out",
@@ -429,10 +458,11 @@ rsdata <- create_sosvar(
 )
 
 rsdata <- create_sosvar(
-  sosdata = patregrsdata %>% filter(sos_source == "sv"),
+  sosdata = patreg %>% filter(sos_source == "sv"),
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = HDIA,
   type = "out",
@@ -444,10 +474,11 @@ rsdata <- create_sosvar(
 )
 
 rsdata <- create_sosvar(
-  sosdata = patregrsdata %>% filter(sos_source == "sv"),
+  sosdata = patreg %>% filter(sos_source == "sv"),
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = HDIA,
   type = "out",
@@ -458,10 +489,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata %>% filter(sos_source == "sv"),
+  sosdata = patreg %>% filter(sos_source == "sv"),
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = HDIA,
   type = "out",
@@ -473,10 +505,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata %>% filter(sos_source == "sv"),
+  sosdata = patreg %>% filter(sos_source == "sv"),
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = HDIA,
   type = "out",
@@ -488,10 +521,11 @@ rsdata <- create_sosvar(
 )
 
 rsdata <- create_sosvar(
-  sosdata = patregrsdata %>% filter(sos_source == "sv"),
+  sosdata = patreg %>% filter(sos_source == "sv"),
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = HDIA,
   type = "out",
@@ -503,10 +537,11 @@ rsdata <- create_sosvar(
 )
 
 rsdata <- create_sosvar(
-  sosdata = patregrsdata %>% filter(sos_source == "sv"),
+  sosdata = patreg %>% filter(sos_source == "sv"),
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = HDIA,
   type = "out",
@@ -517,10 +552,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata %>% filter(sos_source == "sv"),
+  sosdata = patreg %>% filter(sos_source == "sv"),
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = HDIA,
   type = "out",
@@ -531,10 +567,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata %>% filter(sos_source == "sv"),
+  sosdata = patreg %>% filter(sos_source == "sv"),
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = HDIA,
   type = "out",
@@ -545,10 +582,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata %>% filter(sos_source == "sv"),
+  sosdata = patreg %>% filter(sos_source == "sv"),
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = HDIA,
   type = "out",
@@ -559,10 +597,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata %>% filter(sos_source == "sv"),
+  sosdata = patreg %>% filter(sos_source == "sv"),
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = HDIA,
   type = "out",
@@ -573,10 +612,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata %>% filter(sos_source == "sv"),
+  sosdata = patreg %>% filter(sos_source == "sv"),
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = HDIA,
   opvar = OP_all,
@@ -589,10 +629,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata %>% filter(sos_source == "sv"),
+  sosdata = patreg %>% filter(sos_source == "sv"),
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = HDIA,
   type = "out",
@@ -603,10 +644,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata %>% filter(sos_source == "sv"),
+  sosdata = patreg %>% filter(sos_source == "sv"),
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = HDIA,
   opvar = OP_all,
@@ -619,10 +661,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata %>% filter(sos_source == "sv"),
+  sosdata = patreg %>% filter(sos_source == "sv"),
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = HDIA,
   type = "out",
@@ -633,10 +676,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata %>% filter(sos_source == "sv"),
+  sosdata = patreg %>% filter(sos_source == "sv"),
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = HDIA,
   type = "out",
@@ -647,10 +691,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata %>% filter(sos_source == "sv"),
+  sosdata = patreg %>% filter(sos_source == "sv"),
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = HDIA,
   type = "out",
@@ -661,10 +706,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata %>% filter(sos_source == "sv"),
+  sosdata = patreg %>% filter(sos_source == "sv"),
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = HDIA,
   type = "out",
@@ -675,10 +721,11 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 rsdata <- create_sosvar(
-  sosdata = patregrsdata %>% filter(sos_source == "sv"),
+  sosdata = patreg %>% filter(sos_source == "sv"),
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   opvar = OP_all,
   type = "out",
@@ -696,7 +743,7 @@ rm(metaout)
 
 hfdiag <- inner_join(
   rsdata %>% select(lopnr, shf_indexdtm),
-  hfsos, # created in 12-endtime.R
+  hfsos, # created in 14-endtime.R
   by = "lopnr"
 ) %>%
   mutate(tmp_sosdtm = coalesce(UTDATUM, INDATUM)) %>%
@@ -714,7 +761,7 @@ rsdata <- left_join(
   mutate(
     sos_durationhf = as.numeric(shf_indexdtm - tmp_sosdtm),
     sos_durationhf = case_when(
-      casecontrol == "Control" ~ NA_real_,
+      casecontrol %in% c("Control SwedeHF", "Control NPR") ~ NA_real_,
       is.na(sos_durationhf) | sos_durationhf < 0 ~ 0,
       TRUE ~ sos_durationhf
     )
@@ -724,7 +771,7 @@ rsdata <- left_join(
 
 # Time since last HF hospitalization --------------------------------------
 
-hfhospsos <- patregrsdata %>%
+hfhospsos <- patreg %>%
   filter(sos_source == "sv") %>%
   mutate(tmp_hfhospsos = stringr::str_detect(HDIA, global_hficd)) %>%
   filter(tmp_hfhospsos)
@@ -750,7 +797,7 @@ rsdata <- left_join(
   mutate(
     sos_timeprevhosphf = as.numeric(shf_indexdtm - tmp_sosdtm),
     sos_timeprevhosphf = case_when(
-      casecontrol == "Control" ~ NA_real_,
+      casecontrol %in% c("Control SwedeHF", "Control NPR") ~ NA_real_,
       is.na(sos_timeprevhosphf) ~ NA_real_,
       TRUE ~ sos_timeprevhosphf
     )
@@ -761,8 +808,8 @@ rsdata <- left_join(
 # Location defined from NPR -----------------------------------------------
 
 hfhosp <- inner_join(
-  rsdata %>% filter(casecontrol != "Control") %>% select(lopnr, shf_indexdtm, shf_indexhosptime),
-  patregrsdata %>% filter(sos_source == "sv"),
+  rsdata %>% filter(casecontrol %in% c("Case SwedeHF", "Case NPR")) %>% select(lopnr, shf_indexdtm, shf_indexhosptime),
+  patreg %>% filter(sos_source == "sv"),
   by = "lopnr"
 ) %>%
   mutate(
@@ -779,8 +826,8 @@ hfhosp <- inner_join(
   select(lopnr, shf_indexdtm, tmp_locationhf)
 
 allhosp <- inner_join(
-  rsdata %>% filter(casecontrol != "Control") %>% select(lopnr, shf_indexdtm, shf_indexhosptime),
-  patregrsdata %>% filter(sos_source == "sv"),
+  rsdata %>% filter(casecontrol %in% c("Case SwedeHF", "Case NPR")) %>% select(lopnr, shf_indexdtm, shf_indexhosptime),
+  patreg %>% filter(sos_source == "sv"),
   by = "lopnr"
 ) %>%
   mutate(
@@ -804,12 +851,13 @@ rsdata <- left_join(
   by = c("lopnr", "shf_indexdtm")
 ) %>%
   mutate(
-    sos_location = factor(case_when(
-      !is.na(sos_location) ~ sos_location,
-      casecontrol != "Control" ~ 3,
-      TRUE ~ NA_real_
-    ),
-    levels = 1:3, labels = c("HF in-patient", "Other in-patient", "Out-patient")
+    sos_location = factor(
+      case_when(
+        !is.na(sos_location) ~ sos_location,
+        casecontrol %in% c("Case SwedeHF", "Case NPR") ~ 3,
+        TRUE ~ NA_real_
+      ),
+      levels = 1:3, labels = c("HF in-patient", "Other in-patient", "Out-patient")
     ),
     sos_timeprevhosphf = if_else(sos_location == "HF in-patient", 0, sos_timeprevhosphf)
   )

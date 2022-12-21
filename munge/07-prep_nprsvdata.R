@@ -1,16 +1,19 @@
 
 # Link hospital visits ----------------------------------------------------
 
-rsdatau <- rsdata %>% select(lopnr) %>% group_by(lopnr) %>% slice(1) %>% ungroup()
-rm(rsdata)
-#rm(dors)
-rm(migration)
-
 sv <- sv %>%
   select(-starts_with("OPD"), -VTID, -INSATT, -UTSATT, -INDATUMA, -UTDATUMA) %>%
-  rename(HDIA = hdia)
+  rename(
+    HDIA = hdia,
+    lopnr = LopNr
+  )
 
-sv <- inner_join(rsdatau, sv, by = c("lopnr" = "LopNr"))
+svhf <- sv %>%
+  filter(HDIA != "") %>%
+  mutate(HDIA = paste0(" ", HDIA),
+         tmp_hfsos = stringr::str_detect(HDIA, global_hficd)) %>%
+  filter(tmp_hfsos) %>%
+  select(lopnr, HDIA, INDATUM, UTDATUM)
 
 sv <- prep_sosdata(sv, utdatum = FALSE, opvar = "op")
 
@@ -19,7 +22,7 @@ sv2 <- sv %>%
   mutate(UTDATUM = case_when(
     INDATUM > UTDATUM ~ INDATUM,
     TRUE ~ UTDATUM
-  )) %>% 
+  )) %>%
   group_by(lopnr) %>%
   arrange(INDATUM, UTDATUM) %>%
   mutate(
@@ -65,46 +68,3 @@ svlink <- bind_rows(
 ) %>%
   select(-link, -link2, -n, -sosdtm) %>%
   mutate(AR = year(UTDATUM))
-
-rm(list = c("sv", "sv2"))
-
-save(file = paste0("./data/", datadate, "/svlink.RData"), list = c("svlink"))
-
-rm(svlink)
-
-# Merge sos data ----------------------------------------------------------
-
-gc()
-
-ov <- ov %>%
-  rename(HDIA = hdia) %>%
-  select(-INDATUMA)
-
-ov <- inner_join(rsdatau, 
-                 ov, 
-                 by = c("lopnr" = "LopNr"))
-gc()
-
-ov <- prep_sosdata(ov, utdatum = FALSE, opvar = "op")
-
-load(paste0("./data/", datadate, "/svlink.RData"))
-
-patreg <- bind_rows(
-  svlink %>% mutate(sos_source = "sv"),
-  ov %>% mutate(sos_source = "ov") %>% select(-sosdtm)
-) 
-
-rm(list = ls()[grepl("sv|ov", ls())]) # delete to save workspace
-
-patreg <- left_join(
-  patreg,
-  dors %>% select(lopnr, sos_deathdtm),
-  by = "lopnr"
-) %>%
-  mutate(sos_source = if_else(
-    !is.na(UTDATUM) &
-      INDATUM == UTDATUM &
-      (is.na(sos_deathdtm) |
-        INDATUM != sos_deathdtm), "ov", sos_source
-  )) %>%
-  select(-sos_deathdtm)

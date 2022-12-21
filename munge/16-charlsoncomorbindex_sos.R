@@ -4,10 +4,11 @@
 # Myocardial infarction
 
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -21,10 +22,11 @@ rsdata <- create_sosvar(
 # Congestive heart failure
 
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -38,10 +40,11 @@ rsdata <- create_sosvar(
 # Peripheral vascular disease
 
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -55,10 +58,11 @@ rsdata <- create_sosvar(
 # Cerebrovascular disease
 
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -72,10 +76,11 @@ rsdata <- create_sosvar(
 # Chronic pulmonary disease
 
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -89,10 +94,11 @@ rsdata <- create_sosvar(
 # Other chronic pulmonary disease
 
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -106,10 +112,11 @@ rsdata <- create_sosvar(
 # Rheumatic disease
 
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -123,10 +130,11 @@ rsdata <- create_sosvar(
 # Dementia
 
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -140,10 +148,11 @@ rsdata <- create_sosvar(
 # Hemiplegia or paraplegia
 
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -157,10 +166,11 @@ rsdata <- create_sosvar(
 # Diabetes 
 
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -174,10 +184,11 @@ rsdata <- create_sosvar(
 # Diabetes with end organ damage
 
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -191,10 +202,11 @@ rsdata <- create_sosvar(
 # Renal disease
 
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -208,10 +220,11 @@ rsdata <- create_sosvar(
 # Mild liver disease
 
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -225,10 +238,11 @@ rsdata <- create_sosvar(
 ## liver spec
 
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -243,10 +257,11 @@ rsdata <- create_sosvar(
 # Moderate or severe liver disease
 
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -260,10 +275,11 @@ rsdata <- create_sosvar(
 # Peptic ulcer disease
 
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -277,10 +293,11 @@ rsdata <- create_sosvar(
 # Any malignancy, including lymphoma and leukemia, except malignant neoplasm of skin
 
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -294,10 +311,11 @@ rsdata <- create_sosvar(
 # Metastatic solid tumor
 
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",
@@ -311,10 +329,11 @@ rsdata <- create_sosvar(
 # AIDS/HIV
 
 rsdata <- create_sosvar(
-  sosdata = patregrsdata,
+  sosdata = patreg,
   cohortdata = rsdata,
   patid = lopnr,
   indexdate = shf_indexdtm,
+  add_unique = casecontrol,
   sosdate = INDATUM,
   diavar = DIA_all,
   type = "com",

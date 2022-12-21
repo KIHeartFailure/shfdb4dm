@@ -22,14 +22,16 @@ demo <- demo %>%
     ), levels = 1:3, labels = c("Sweden", "Europe", "Other"))
   )
 
-rsdata <- left_join(rsdata,
+rsdata <- left_join(
+  rsdata,
   demo %>% select(scb_countryofbirth, lopnr),
   by = "lopnr"
 )
 
 child <- bind_rows(barnadop, barnbio)
 
-child2 <- inner_join(rsdata %>% select(lopnr, shf_indexdtm, shf_indexyear),
+child2 <- inner_join(
+  rsdata %>% select(lopnr, shf_indexdtm, shf_indexyear),
   child,
   by = c("lopnr" = "LopNr")
 )
@@ -42,7 +44,8 @@ child2 <- child2 %>%
   mutate(scb_child = 1) %>%
   select(lopnr, shf_indexdtm, scb_child)
 
-rsdata <- left_join(rsdata,
+rsdata <- left_join(
+  rsdata,
   child2,
   by = c("lopnr", "shf_indexdtm")
 ) %>%

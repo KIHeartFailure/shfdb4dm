@@ -204,7 +204,7 @@ rsdata <- rsdata %>%
         shf_potassium > 5 ~ 3
       ),
       levels = 1:3,
-      labels = c("normakalemia", "hypokalemia", "hyperkalemia")
+      labels = c("Normakalemia", "Hypokalemia", "Hyperkalemia")
     ),
     shf_sodium = coalesce(S_SODIUM_24H, S_SODIUM, NATRIUM),
     shf_crea = coalesce(S_CREATININE_24H, S_CREATININE, KREATININ),
@@ -482,13 +482,22 @@ rsdata <- rsdata %>%
     levels = 1:2, labels = c("Primary care/Other", "Hospital")
     ),
     shf_qol = coalesce(LIFEQUALITY_SCORE, LIVSKVALITET),
+    shf_qol_cat = factor(
+      case_when(
+        shf_qol <= 25 ~ 1,
+        shf_qol <= 50 ~ 2,
+        shf_qol <= 75 ~ 3,
+        shf_qol <= 100 ~ 4,
+      ),
+      levels = 1:4,
+      labels = c("0-25", "26-50", "51-75", "76-100")
+    ),
 
     # outcomes
     shf_deathdtm = coalesce(d_befdoddtm, befdoddtm),
     # shf_deathdtm = if_else(shf_deathdtm > global_endfollowup, as.Date(NA), shf_deathdtm)
   ) %>%
   select(-starts_with("tmp_"))
-
 
 # Impute comorbs and hf duration ------------------------------------------
 

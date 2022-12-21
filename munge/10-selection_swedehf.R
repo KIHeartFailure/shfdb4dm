@@ -46,8 +46,8 @@ rsdata <- rsdata %>%
 flow <- rbind(flow, c("Remove posts < 18 years", nrow(rsdata)))
 
 rsdata <- left_join(rsdata,
-  dors %>% select(lopnr, sos_deathdtm),
-  by = "lopnr"
+                    dors %>% select(lopnr, sos_deathdtm),
+                    by = "lopnr"
 )
 
 rsdata <- rsdata %>%

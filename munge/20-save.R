@@ -3,15 +3,19 @@
 
 save(
   file = "./data/rsdata_for_webb.RData",
-  #list = c("rsdata", "flow", "ncontrols", "outcommeta", "ccimeta", "deathmeta")
-  list = c("rsdata", "flow", "outcommeta", "ccimeta", "deathmeta")
+  list = c("rsdata", "flow", "ncontrols", "outcommeta", "ccimeta", "deathmeta")
 )
+
+rsdatafull <- rsdata
+rsdata <- rsdatafull %>%
+  filter(casecontrol == "Case SwedeHF")
 
 # Version number
 
-version <- "401"
+version <- "410"
 
 assign(paste0("rsdata", version), rsdata)
+assign(paste0("rsdatafull", version), rsdatafull)
 
 dir.create(paste0("./data/v", version))
 
@@ -20,6 +24,10 @@ dir.create(paste0("./data/v", version))
 save(
   file = paste0("./data/v", version, "/rsdata", version, ".RData"),
   list = c(paste0("rsdata", version))
+)
+save(
+  file = paste0("./data/v", version, "/rsdatafull", version, ".RData"),
+  list = c(paste0("rsdatafull", version))
 )
 
 # Txt
