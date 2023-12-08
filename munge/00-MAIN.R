@@ -1,7 +1,9 @@
 
-# run 01-05
+# Project specific packages, functions and settings -----------------------
 
-ProjectTemplate::reload.project()
+source(here::here("setup/setup.R"))
+
+# run 01-05
 load(paste0("./data/", datadate, "/rawData_rs.RData"))
 
 source("./munge/01-clean_missing_swedehf.R")
