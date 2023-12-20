@@ -1,10 +1,10 @@
-
 # Cause of death ----------------------------------------------------------
 
 rsdata <- rsdata %>%
   mutate(
     sos_out_death = ynfac(ifelse(censdtm == sos_deathdtm & !is.na(sos_deathdtm), 1, 0)),
-    sos_outtime_death = as.numeric(censdtm - shf_indexdtm)
+    sos_outtime_death = as.numeric(censdtm - shf_indexdtm),
+    sos_deathcause = if_else(sos_out_death == "No", NA_character_, sos_deathcause)
   )
 
 rsdata <- create_deathvar(

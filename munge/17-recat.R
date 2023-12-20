@@ -1,9 +1,20 @@
-
 rsdata <- rsdata %>%
   mutate(
-    shf_sos_prevhfh1yr = ynfac(case_when(shf_location == "In-patient" & !is.na(shf_location) |
-                                         !is.na(sos_timeprevhosphf) & sos_timeprevhosphf < 365 ~ 1, 
-                                       TRUE ~ 0)),
+    shf_age_cat = factor(
+      case_when(
+        is.na(shf_age) ~ NA_real_,
+        shf_age < 70 ~ 1,
+        shf_age <= 80 ~ 2,
+        shf_age > 80 ~ 3
+      ),
+      levels = 1:3,
+      labels = c("<70", "70-80", ">80")
+    ),
+    shf_sos_prevhfh1yr = ynfac(case_when(
+      shf_location == "In-patient" & !is.na(shf_location) |
+        !is.na(sos_timeprevhosphf) & sos_timeprevhosphf < 365 ~ 1,
+      TRUE ~ 0
+    )),
     shf_sos_com_af = ynfac(case_when(
       sos_com_af == "Yes" |
         shf_af == "Yes" |

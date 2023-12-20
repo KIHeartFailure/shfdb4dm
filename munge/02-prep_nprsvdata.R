@@ -1,4 +1,3 @@
-
 # Link hospital visits ----------------------------------------------------
 
 sv <- sv %>%
@@ -7,13 +6,6 @@ sv <- sv %>%
     HDIA = hdia,
     lopnr = LopNr
   )
-
-svhf <- sv %>%
-  filter(HDIA != "") %>%
-  mutate(HDIA = paste0(" ", HDIA),
-         tmp_hfsos = stringr::str_detect(HDIA, global_hficd)) %>%
-  filter(tmp_hfsos) %>%
-  select(lopnr, HDIA, INDATUM, UTDATUM)
 
 sv <- prep_sosdata(sv, utdatum = FALSE, opvar = "op")
 

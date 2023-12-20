@@ -1,4 +1,3 @@
-
 dors <- dors %>%
   group_by(LopNr) %>%
   arrange(ULORSAK) %>%

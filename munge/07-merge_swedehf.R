@@ -16,22 +16,24 @@ rsdata <- bind_rows(
 )
 
 yncomb <- function(oldvar, newvar) {
-  combvar <- factor(case_when(
-    !!oldvar == 0 | !!newvar == "NO" ~ 0,
-    !!oldvar == 1 | !!newvar == "YES" ~ 1
-  ),
-  levels = 0:1,
-  labels = c("No", "Yes")
+  combvar <- factor(
+    case_when(
+      !!oldvar == 0 | !!newvar == "NO" ~ 0,
+      !!oldvar == 1 | !!newvar == "YES" ~ 1
+    ),
+    levels = 0:1,
+    labels = c("No", "Yes")
   )
 }
 
 ynnew <- function(newvar) {
-  outvar <- factor(case_when(
-    !!newvar == "NO" ~ 0,
-    !!newvar == "YES" ~ 1
-  ),
-  levels = 0:1,
-  labels = c("No", "Yes")
+  outvar <- factor(
+    case_when(
+      !!newvar == "NO" ~ 0,
+      !!newvar == "YES" ~ 1
+    ),
+    levels = 0:1,
+    labels = c("No", "Yes")
   )
 }
 
@@ -59,14 +61,6 @@ rsdata <- rsdata %>%
       TYPE_old == 1 | TYPE %in% c("FOLLOWUP", "YEARLY_FOLLOWUP") ~ "Follow-up"
     ),
     shf_age = coalesce(d_age_at_VISIT_DATE, d_alder),
-    shf_age_cat = factor(case_when(
-      is.na(shf_age) ~ NA_real_,
-      shf_age < 75 ~ 1,
-      shf_age >= 75 ~ 2
-    ),
-    levels = 1:2,
-    labels = c("<75", ">=75")
-    ),
     shf_civilstatus = case_when(
       CIVILSTATUS == 1 | CIVIL_STATUS == "PARTNER" ~ "Married/cohabitating",
       CIVILSTATUS == 2 | CIVIL_STATUS == "SINGLE" ~ "Single"
@@ -137,7 +131,7 @@ rsdata <- rsdata %>%
     tmp_DURATION_OF_HF = coalesce(tmp_timedurationhf2, DURATION_OF_HF),
     shf_durationhf = case_when(
       DURATIONHJARTSVIKT == 1 | tmp_DURATION_OF_HF == "LESS_THAN_6_MONTHS" ~ "<6mo",
-      DURATIONHJARTSVIKT == 2 | tmp_DURATION_OF_HF == "MORE_THAN_6_MONTHS" ~ ">6mo"
+      DURATIONHJARTSVIKT == 2 | tmp_DURATION_OF_HF == "MORE_THAN_6_MONTHS" ~ ">=6mo"
     ),
     shf_primaryetiology = case_when(
       PRIMARETIOLOGI == 1 | PRIMARY_ETIOLOGY == "HYPERTENSION" ~ "Hypertension",
@@ -165,37 +159,50 @@ rsdata <- rsdata %>%
       d_lvefprocent == 3 | LVEF_SEMIQUANTITATIVE == "MODERATE" | LVEF_PERCENT >= 30 ~ 3,
       d_lvefprocent == 4 | LVEF_SEMIQUANTITATIVE == "SEVERE" | LVEF_PERCENT < 30 ~ 4
     ), levels = 1:4, labels = c(">=50", "40-49", "30-39", "<30")),
-    shf_ef_cat = factor(case_when(
-      shf_ef == ">=50" ~ 3,
-      shf_ef == "40-49" ~ 2,
-      shf_ef %in% c("30-39", "<30") ~ 1
-    ),
-    levels = 1:3,
-    labels = c("HFrEF", "HFmrEF", "HFpEF")
+    shf_ef_cat = factor(
+      case_when(
+        shf_ef == ">=50" ~ 3,
+        shf_ef == "40-49" ~ 2,
+        shf_ef %in% c("30-39", "<30") ~ 1
+      ),
+      levels = 1:3,
+      labels = c("HFrEF", "HFmrEF", "HFpEF")
     ),
     shf_weight = coalesce(WEIGHT_24H, WEIGHT, VIKT),
+    shf_weight_admvisit = WEIGHT,
+    shf_weight_dis = WEIGHT_24H,
     shf_height = coalesce(HEIGHT, LANGD),
 
     # laboratory
     shf_bpsys = coalesce(BP_SYSTOLIC_24H, BP_SYSTOLIC, BTSYSTOLISKT),
+    shf_bpsys_admvisit = BP_SYSTOLIC,
+    shf_bpsys_dis = BP_SYSTOLIC_24H,
     shf_bpdia = coalesce(BP_DIASTOLIC_24H, BP_DIASTOLIC, BTDIASTOLISKT),
+    shf_bpdia_admvisit = BP_DIASTOLIC,
+    shf_bpdia_dis = BP_DIASTOLIC_24H,
     shf_map = (shf_bpsys + 2 * shf_bpdia) / 3,
     shf_map_cat = case_when(
       shf_map <= 90 ~ "<=90",
       shf_map > 90 ~ ">90"
     ),
     shf_heartrate = coalesce(HEART_FREQUENCY_24H, HEART_FREQUENCY, HJARTFREKVENS),
+    shf_heartrate_admvisit = HEART_FREQUENCY,
+    shf_heartrate_dis = HEART_FREQUENCY_24H,
     shf_heartrate_cat = case_when(
       shf_heartrate <= 70 ~ "<=70",
       shf_heartrate > 70 ~ ">70"
     ),
     shf_hb = coalesce(B_HB_24H, B_HB, HB),
+    shf_hb_admvisit = B_HB,
+    shf_hb_dis = B_HB_24H,
     shf_anemia = ynfac(case_when(
       is.na(shf_hb) | is.na(shf_sex) ~ NA_real_,
       shf_sex == "Female" & shf_hb < 120 | shf_sex == "Male" & shf_hb < 130 ~ 1,
       TRUE ~ 0
     )),
     shf_potassium = coalesce(S_POTASSIUM_24H, S_POTASSIUM, KALIUM),
+    shf_potassium_admvisit = S_POTASSIUM,
+    shf_potassium_dis = S_POTASSIUM_24H,
     shf_potassium_cat = factor(
       case_when(
         is.na(shf_potassium) ~ NA_real_,
@@ -207,21 +214,28 @@ rsdata <- rsdata %>%
       labels = c("Normakalemia", "Hypokalemia", "Hyperkalemia")
     ),
     shf_sodium = coalesce(S_SODIUM_24H, S_SODIUM, NATRIUM),
+    shf_sodium_admvisit = S_SODIUM,
+    shf_sodium_dis = S_SODIUM_24H,
     shf_crea = coalesce(S_CREATININE_24H, S_CREATININE, KREATININ),
+    shf_crea_admvisit = S_CREATININE,
+    shf_crea_dis = S_CREATININE_24H,
     # eGFR according to CKD-EPI 2021 https://www.nejm.org/doi/full/10.1056/NEJMoa2102953
     tmp_k = if_else(shf_sex == "Female", 0.7, 0.9),
     tmp_a = if_else(shf_sex == "Female", -0.241, -0.302),
     tmp_add = if_else(shf_sex == "Female", 1.012, 1),
     shf_gfrckdepi = 142 * pmin(shf_crea / 88.4 / tmp_k, 1)^tmp_a * pmax(shf_crea / 88.4 / tmp_k, 1)^-1.200 * 0.9938^shf_age * tmp_add,
-    shf_gfrckdepi_cat = factor(case_when(
-      is.na(shf_gfrckdepi) ~ NA_real_,
-      shf_gfrckdepi >= 60 ~ 1,
-      shf_gfrckdepi < 60 ~ 2,
-    ),
-    levels = 1:2,
-    labels = c(">=60", "<60")
+    shf_gfrckdepi_cat = factor(
+      case_when(
+        is.na(shf_gfrckdepi) ~ NA_real_,
+        shf_gfrckdepi >= 60 ~ 1,
+        shf_gfrckdepi < 60 ~ 2,
+      ),
+      levels = 1:2,
+      labels = c(">=60", "<60")
     ),
     shf_ntprobnp = coalesce(NT_PROBNP_24H, NT_PROBNP, PROBNP),
+    shf_ntprobnp_admvisit = NT_PROBNP,
+    shf_ntprobnp_dis = NT_PROBNP_24H,
     shf_bnp = coalesce(BNP_24H, BNP, BNP_old),
     shf_transferrin = P_TRANSFERRIN,
     shf_ferritin = S_FERRITIN,
@@ -234,12 +248,13 @@ rsdata <- rsdata %>%
     shf_fcmiv = yncomb(JARNIV, FERROCARBOXYMALTOSIS),
     shf_fcmivdose = coalesce(JARNMG, FERRO_LAST_MG),
     shf_fcmivdtm = coalesce(JARNDATUM, FERRO_LAST_DATE),
-    shf_unplannedinotrope = factor(case_when(
-      is.na(INOTROPTSTOD) & is.na(INOTROPE_SUPPORT) ~ NA_real_,
-      INOTROPTSTOD == 0 | INOTROPE_SUPPORT == "NO" ~ 0,
-      TRUE ~ 1
-    ),
-    levels = 0:1, labels = c("No", "Yes")
+    shf_unplannedinotrope = factor(
+      case_when(
+        is.na(INOTROPTSTOD) & is.na(INOTROPE_SUPPORT) ~ NA_real_,
+        INOTROPTSTOD == 0 | INOTROPE_SUPPORT == "NO" ~ 0,
+        TRUE ~ 1
+      ),
+      levels = 0:1, labels = c("No", "Yes")
     ),
 
     # treatments
@@ -416,13 +431,14 @@ rsdata <- rsdata %>%
       "No", "Pacemaker",
       "CRT-P", "CRT-D", "ICD"
     )),
-    shf_device_cat = factor(case_when(
-      is.na(shf_device) ~ NA_real_,
-      shf_device %in% c("CRT-P", "CRT-D", "ICD") ~ 2,
-      TRUE ~ 1
-    ),
-    levels = 1:2,
-    labels = c("No", "CRT/ICD"),
+    shf_device_cat = factor(
+      case_when(
+        is.na(shf_device) ~ NA_real_,
+        shf_device %in% c("CRT-P", "CRT-D", "ICD") ~ 2,
+        TRUE ~ 1
+      ),
+      levels = 1:2,
+      labels = c("No", "CRT/ICD"),
     ),
     shf_xray = factor(case_when(
       RONTGEN == 0 | CHEST_X_RAY == "NO" ~ 0,
@@ -475,11 +491,12 @@ rsdata <- rsdata %>%
       UPPF_VARDNIVA == 2 | FOLLOWUP_HC_LEVEL == "PRIMARY_CARE" ~ 2,
       UPPF_VARDNIVA == 3 | FOLLOWUP_HC_LEVEL == "OTHER" ~ 3
     ), levels = 1:3, labels = c("Hospital", "Primary care", "Other")),
-    shf_followuplocation_cat = factor(case_when(
-      shf_followuplocation %in% c("Primary care", "Other") ~ 1,
-      shf_followuplocation %in% c("Hospital") ~ 2
-    ),
-    levels = 1:2, labels = c("Primary care/Other", "Hospital")
+    shf_followuplocation_cat = factor(
+      case_when(
+        shf_followuplocation %in% c("Primary care", "Other") ~ 1,
+        shf_followuplocation %in% c("Hospital") ~ 2
+      ),
+      levels = 1:2, labels = c("Primary care/Other", "Hospital")
     ),
     shf_qol = coalesce(LIFEQUALITY_SCORE, LIVSKVALITET),
     shf_qol_cat = factor(
@@ -492,12 +509,95 @@ rsdata <- rsdata %>%
       levels = 1:4,
       labels = c("0-25", "26-50", "51-75", "76-100")
     ),
-
+    shf_fatigue = factor(case_when(
+      FATIGUE_old == 4 | FATIGUE == "AT_REST" ~ 1,
+      FATIGUE_old == 3 | FATIGUE == "MODERATE_EFFORT" ~ 2,
+      FATIGUE_old == 2 | FATIGUE == "SOME_EFFORT" ~ 3,
+      FATIGUE_old == 1 | FATIGUE == "UNAFFECTED" ~ 4
+    ), levels = 1:4, labels = c(
+      "At rest",
+      "At moderate effort",
+      "At more than moderate effort",
+      "Unaffected"
+    )),
+    shf_outofbreath = factor(case_when(
+      OUTOFBREATH == 4 | SHORTNESS_OF_BREATH == "AT_REST" ~ 1,
+      OUTOFBREATH == 3 | SHORTNESS_OF_BREATH == "MODERATE_EFFORT" ~ 2,
+      OUTOFBREATH == 2 | SHORTNESS_OF_BREATH == "SOME_EFFORT" ~ 3,
+      OUTOFBREATH == 1 | SHORTNESS_OF_BREATH == "UNAFFECTED" ~ 4
+    ), levels = 1:4, labels = c(
+      "At rest",
+      "At moderate effort",
+      "At more than moderate effort",
+      "Unaffected"
+    )),
+    shf_mobility = factor(case_when(
+      MOBILITY_old == 3 | MOBILITY == "BEDRIDDEN" ~ 1,
+      MOBILITY_old == 2 | MOBILITY == "SOME_PROBLEM" ~ 2,
+      MOBILITY_old == 1 | MOBILITY == "NO_PROBLEM" ~ 3
+    ), levels = 1:3, labels = c(
+      "Bedridden",
+      "Some problem",
+      "No problem"
+    )),
+    shf_hygiene = factor(case_when(
+      HYGENE == 3 | HYGIEN == "CANT_WASH_CLOTHE" ~ 1,
+      HYGENE == 2 | HYGIEN == "SOME_PROBLEM" ~ 2,
+      HYGENE == 1 | HYGIEN == "NO_HELP" ~ 3
+    ), levels = 1:3, labels = c(
+      "Can't wash and clothe",
+      "Some problem",
+      "No problem"
+    )),
+    shf_activities = factor(case_when(
+      ACTIVITIES == 3 | MAIN_ACTIVITIES == "CANT_DO" ~ 1,
+      ACTIVITIES == 2 | MAIN_ACTIVITIES == "SOME_PROBLEMS" ~ 2,
+      ACTIVITIES == 1 | MAIN_ACTIVITIES == "CAN_DO" ~ 3
+    ), levels = 1:3, labels = c(
+      "Can't do",
+      "Some problem",
+      "No problem"
+    )),
+    shf_pain = factor(case_when(
+      PAIN_TROUBLES == 3 | PAIN == "HEAVY" ~ 1,
+      PAIN_TROUBLES == 2 | PAIN == "MODERATE" ~ 2,
+      PAIN_TROUBLES == 1 | PAIN == "NONE" ~ 3
+    ), levels = 1:3, labels = c(
+      "Severe",
+      "Moderate",
+      "None"
+    )),
+    shf_anxiety = factor(case_when(
+      DISCOMFORT_SADNESS == 3 | ANXIETY == "HEAVY" ~ 1,
+      DISCOMFORT_SADNESS == 2 | ANXIETY == "SOME" ~ 2,
+      DISCOMFORT_SADNESS == 1 | ANXIETY == "NONE" ~ 3
+    ), levels = 1:3, labels = c(
+      "Severe",
+      "Moderate",
+      "None"
+    )),
     # outcomes
     shf_deathdtm = coalesce(d_befdoddtm, befdoddtm),
     # shf_deathdtm = if_else(shf_deathdtm > global_endfollowup, as.Date(NA), shf_deathdtm)
   ) %>%
   select(-starts_with("tmp_"))
+
+# Selection ---------------------------------------------------------------
+
+flow <- tibble(Criteria = "No of posts recieved", `Case SwedeHF` = nrow(rsdata), `Case NPR` = NA, `Control SwedeHF` = NA, `Control NPR` = NA)
+
+# remove duplicated indexdates
+rsdata <- rsdata %>%
+  group_by(lopnr, shf_indexdtm) %>%
+  arrange(shf_source) %>%
+  slice(n()) %>%
+  ungroup()
+
+flow <- flow %>%
+  add_row(
+    Criteria = "Exclude posts with duplicated index dates",
+    `Case SwedeHF` = nrow(rsdata)
+  )
 
 # Impute comorbs and hf duration ------------------------------------------
 
@@ -580,11 +680,11 @@ rsdata <- rsdata %>%
       is.na(shf_durationhf_org) &
         (shf_type == "Index" | shf_source != "New SHF") ~ NA_character_,
       # is.na(shf_durationhf) ~ NA_character_,
-      shf_durationhf == ">6mo" ~ shf_durationhf,
-      shf_indexdtm - DATE_FOR_DIAGNOSIS_HF >= 6 * 30.5 ~ ">6mo",
+      shf_durationhf == ">=6mo" ~ shf_durationhf,
+      shf_indexdtm - DATE_FOR_DIAGNOSIS_HF >= 6 * 30.5 ~ ">=6mo",
       shf_indexdtm - DATE_FOR_DIAGNOSIS_HF < 6 * 30.5 ~ "<6mo",
       shf_durationhf == "<6mo" &
-        shf_indexdtm - tmp_indexdtm >= 6 * 30.5 ~ ">6mo",
+        shf_indexdtm - tmp_indexdtm >= 6 * 30.5 ~ ">=6mo",
       # make assumption that hf diagnosis is at shf_type = Index
       shf_durationhf == "<6mo" &
         shf_indexdtm - tmp_indexdtm < 6 * 30.5 ~ "<6mo"
@@ -592,23 +692,34 @@ rsdata <- rsdata %>%
   ) %>%
   select(-contains("_org"), -d_DATE_FOR_ADMISSION, -DATE_FOR_DIAGNOSIS_HF, -tmp_indexdtm)
 
+# Impute BMI ---------------------------------------------------------------
 
-# Create variable EF at index ---------------------------------------------
+# If missing height select the latest height (can also be after index)
 
-rsdataindex <- rsdata %>%
-  filter(
-    shf_type == "Index",
-    !is.na(shf_ef)
-  ) %>%
+heightimpind <- rsdata %>%
+  filter(!is.na(shf_height)) %>%
   group_by(lopnr) %>%
-  slice(1) %>%
+  arrange(shf_indexdtm) %>%
+  slice(n()) %>%
   ungroup() %>%
-  transmute(
-    lopnr = lopnr,
-    shf_eforg = shf_ef
-  )
+  rename(height_imp = shf_height) %>%
+  select(lopnr, height_imp)
 
 rsdata <- left_join(rsdata,
-  rsdataindex,
+  heightimpind,
   by = "lopnr"
-)
+) %>%
+  mutate(
+    shf_height = coalesce(shf_height, height_imp),
+    shf_bmi = round(shf_weight / (shf_height / 100)^2, 1),
+    shf_bmi_cat = factor(
+      case_when(
+        is.na(shf_bmi) ~ NA_real_,
+        shf_bmi < 30 ~ 1,
+        shf_bmi >= 30 ~ 2
+      ),
+      levels = 1:2,
+      labels = c("<30", ">=30")
+    ),
+  ) %>%
+  select(-height_imp)

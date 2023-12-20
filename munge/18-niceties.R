@@ -2,7 +2,7 @@
 
 rsdata <- rsdata %>%
   select(
-    lopnr, 
+    lopnr,
     casecontrol,
     ncontrols, lopnrcase,
     shf_source, shf_indexdtm, shf_indexhosptime, shf_indexyear, shf_type,
@@ -12,7 +12,7 @@ rsdata <- rsdata %>%
     censdtm,
     sos_durationhf,
     sos_timeprevhosphf,
-    sos_location, 
+    sos_location,
     contains("sos_com"),
     contains("sos_out"),
     sos_deathcause
@@ -22,8 +22,8 @@ rsdata <- rsdata %>%
 rsdata <- rsdata %>%
   mutate(across(where(is.character), as.factor)) %>%
   mutate(
-    shf_centre = as.character(shf_centre), 
-    shf_centreregion = as.character(shf_centreregion), 
+    shf_centre = as.character(shf_centre),
+    shf_centreregion = as.character(shf_centreregion),
     sos_deathcause = as.character(sos_deathcause),
     scb_region = as.character(scb_region)
   )

@@ -1,4 +1,3 @@
-
 casecontrol <- bind_rows(
   fall_och_kontroller_1 %>% mutate(casetype = "withcontrols"),
   fall_och_kontroller_2 %>% mutate(casetype = "withcontrols"),
@@ -7,33 +6,33 @@ casecontrol <- bind_rows(
   fall_ej_i_register %>% mutate(casetype = "noreg") %>% rename(lopnr_fall = lopnr)
 ) %>%
   mutate(indexdtm = ymd(datum)) %>%
-  select(lopnr_fall, lopnr_kontroll, fodelsear, indexdtm, casetype) %>%
-  filter(indexdtm <= global_endcohort)
+  select(lopnr_fall, lopnr_kontroll, fodelsear, indexdtm, casetype)
+
+
+# Prepare NPR cases -------------------------------------------------------
 
 case <- casecontrol %>%
-  filter(casetype != "noreg") %>%
   group_by(lopnr_fall, indexdtm) %>%
   slice(1) %>%
   ungroup() %>%
   select(-lopnr_kontroll)
 
-
 # Check and fix SOS HF pop ----------------------------------------------------
 
-hfpop <- hfpop %>%
+hfpopcase <- hfpop %>%
   mutate(
     sosindexdtm = coalesce(UTDATUM, INDATUM),
-    hf = str_detect(HDIA, " I110| I130| I132| I255| I420| I423| I425| I426| I427| I428| I429| I43| I50| J81| K761")
+    hf = str_detect(HDIA, global_hficd)
   ) %>%
+  filter(hf) %>%
   group_by(lopnr) %>%
   arrange(sosindexdtm) %>%
   slice(1) %>%
-  ungroup() %>%
-  filter(sosindexdtm >= ymd("2000-01-01") & sosindexdtm <= global_endcohort & hf)
+  ungroup()
 
 hfpopcase <- right_join(
   case,
-  hfpop,
+  hfpopcase,
   by = c("lopnr_fall" = "lopnr")
 ) %>%
   mutate(
@@ -59,8 +58,8 @@ hfpopcase <- left_join(
     casecontrol = 2
   ) %>%
   select(lopnr, indexdtm, shf_age, shf_sex, sosindexdtm, diff, keepcontrols, casecontrol) %>%
-  filter(shf_age >= 18 & !is.na(shf_age)) %>%
   rename(shf_indexdtm = sosindexdtm) # set the index date to sos date and not SCB/SOS case/control date
+
 
 # select controls that have cases
 # rs

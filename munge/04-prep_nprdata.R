@@ -1,14 +1,8 @@
-
 # Merge sos data ----------------------------------------------------------
 
 patreg <- bind_rows(
   svlink %>% mutate(sos_source = "sv"),
   ov %>% mutate(sos_source = "ov") %>% select(-sosdtm)
-)
-
-hfpop <- bind_rows(
-  svhf %>% mutate(sos_source = "sv"),
-  ovhf %>% mutate(sos_source = "ov")
 )
 
 rm(list = ls()[grepl("sv|ov", ls())]) # delete to save workspace
@@ -25,3 +19,8 @@ patreg <- left_join(
         INDATUM != sos_deathdtm), "ov", sos_source
   )) %>%
   select(-sos_deathdtm)
+
+hfpop <- patreg %>%
+  mutate(tmp_hfsos = stringr::str_detect(DIA_all, global_hficd)) %>%
+  filter(tmp_hfsos) %>%
+  select(lopnr, HDIA, DIA_all, INDATUM, UTDATUM)

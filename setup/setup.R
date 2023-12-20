@@ -1,3 +1,7 @@
+# clean workspace
+rm(list = ls())
+gc()
+
 source(here::here("setup/libs.R"))
 
 source(here("setup/globals.R"))

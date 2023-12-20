@@ -1,4 +1,3 @@
-
 # Charlson comobidity index -----------------------------------------------
 
 # Myocardial infarction
@@ -49,7 +48,7 @@ rsdata <- create_sosvar(
   diavar = DIA_all,
   type = "com",
   name = "cci_pvd",
-  diakod = " 440| 441| 443B| 443X| 447B| 557| I70| I71| I731| I738| I739| I771| I790| I792| K55", 
+  diakod = " 440| 441| 443B| 443X| 447B| 557| I70| I71| I731| I738| I739| I771| I790| I792| K55",
   stoptime = -10 * 365.25,
   valsclass = "num",
   warnings = FALSE
@@ -85,7 +84,7 @@ rsdata <- create_sosvar(
   diavar = DIA_all,
   type = "com",
   name = "cci_copd",
-  diakod = " 491| 492| 496| J4[3-4]", 
+  diakod = " 491| 492| 496| J4[3-4]",
   stoptime = -10 * 365.25,
   valsclass = "num",
   warnings = FALSE
@@ -163,7 +162,7 @@ rsdata <- create_sosvar(
   warnings = FALSE
 )
 
-# Diabetes 
+# Diabetes
 
 rsdata <- create_sosvar(
   sosdata = patreg,
@@ -350,7 +349,6 @@ rsdata <- rsdata %>%
     sos_com_cci_livermodsev = if_else(sos_com_cci_livermild == 1 & sos_com_cci_liverspec == 1, 1, sos_com_cci_livermodsev),
     sos_com_cci_livermild = if_else(sos_com_cci_livermodsev == 1, 0, sos_com_cci_livermild),
     sos_com_cci_malignancy = if_else(sos_com_cci_metastatictumor == 1, 0, sos_com_cci_malignancy),
-    
     sos_com_cci_diabetescompliation = sos_com_cci_diabetescompliation * 2,
     sos_com_cci_plegia = sos_com_cci_plegia * 2,
     sos_com_cci_renal = sos_com_cci_renal * 2,

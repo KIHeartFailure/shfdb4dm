@@ -1,5 +1,3 @@
-
-
 # Comorbidities -----------------------------------------------------------
 
 rsdata <- create_sosvar(
@@ -743,7 +741,7 @@ rm(metaout)
 
 hfdiag <- inner_join(
   rsdata %>% select(lopnr, shf_indexdtm),
-  hfsos, # created in 14-endtime.R
+  hfpop,
   by = "lopnr"
 ) %>%
   mutate(tmp_sosdtm = coalesce(UTDATUM, INDATUM)) %>%

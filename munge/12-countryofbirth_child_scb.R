@@ -1,4 +1,3 @@
-
 # anyDuplicated(demo$lopnr)
 
 demo <- demo %>%

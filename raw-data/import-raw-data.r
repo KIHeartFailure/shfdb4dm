@@ -1,4 +1,3 @@
-
 ProjectTemplate::reload.project()
 
 outputpath <- paste0("./data/", datadate, "/")
@@ -15,10 +14,11 @@ rsold <- read_sasdata(path = ucrpath, filename = "lb_lev_rikssvikt_bas_ej_migr")
 ## corr with migrated, age and location
 rsnewadd <- read_sasdata(path = ucrpath, filename = "dat776_export_tillagg2")
 
-rsnew <- left_join(rsnew %>%
-  select(-MIGRATED),
-rsnewadd %>% rename(MIGRATED = MIGRATED_NY),
-by = c("patientreference_pseudonymiserad", "d_DATE_FOR_ADMISSION", "TYPE")
+rsnew <- left_join(
+  rsnew %>%
+    select(-MIGRATED),
+  rsnewadd %>% rename(MIGRATED = MIGRATED_NY),
+  by = c("patientreference_pseudonymiserad", "d_DATE_FOR_ADMISSION", "TYPE")
 ) %>%
   filter(!is.na(d_age_at_VISIT_DATE))
 
@@ -103,9 +103,9 @@ rm(list = c(
 sospath <- paste0("./raw-data/SOS/", datadate, "/")
 
 dors <- read_sasdata(path = sospath, filename = "ut_r_dors_36421_2021", clean = FALSE)
-#dorsar <- read_sasdata(path = sospath, filename = "ut_r_dors_ar_36421_2021", clean = FALSE)
-#dorsavi <- read_sasdata(path = sospath, filename = "ut_r_dors_avi_36421_2021", clean = FALSE)
-#dorsh <- read_sasdata(path = sospath, filename = "ut_r_dors_h_36421_2021", clean = FALSE)
+# dorsar <- read_sasdata(path = sospath, filename = "ut_r_dors_ar_36421_2021", clean = FALSE)
+# dorsavi <- read_sasdata(path = sospath, filename = "ut_r_dors_avi_36421_2021", clean = FALSE)
+# dorsh <- read_sasdata(path = sospath, filename = "ut_r_dors_h_36421_2021", clean = FALSE)
 
 # Store as RData in /data folder ------------------------------------------
 
@@ -117,10 +117,10 @@ save(
 )
 
 rm(list = c(
-  "dors"#,
-  #"dorsar",
-  #"dorsavi",
-  #"dorsh"
+  "dors" # ,
+  # "dorsar",
+  # "dorsavi",
+  # "dorsh"
 ))
 
 sv <- read_sasdata(path = sospath, filename = "ut_r_par_sv_36421_2021", clean = FALSE)
@@ -131,7 +131,8 @@ ov <- read_sasdata(path = sospath, filename = "ut_r_par_ov_36421_2021", clean = 
 save(
   file = paste0(outputpath, "rawData_sossv.RData"),
   list = c(
-    "sv")
+    "sv"
+  )
 )
 save(
   file = paste0(outputpath, "rawData_sosov.RData"),

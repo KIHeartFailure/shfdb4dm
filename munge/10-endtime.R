@@ -1,4 +1,3 @@
-
 # Migration ---------------------------------------------------------------
 
 migration <- inner_join(
@@ -23,7 +22,6 @@ rsdata <- left_join(rsdata,
   by = c("lopnr", "shf_indexdtm")
 )
 
-
 # Death -------------------------------------------------------------------
 
 rsdata <- left_join(rsdata,
@@ -33,17 +31,12 @@ rsdata <- left_join(rsdata,
 
 # Controls ----------------------------------------------------------------
 
-hfsos <- patreg %>%
-  filter(DIA_all != "") %>%
-  mutate(tmp_hfsos = stringr::str_detect(DIA_all, global_hficd)) %>%
-  filter(tmp_hfsos)
-
 controlstososcase <-
   inner_join(
     rsdata %>%
       filter(casecontrol %in% c("Control SwedeHF", "Control NPR")) %>%
       select(lopnr, lopnrcase, casecontrol, shf_indexdtm),
-    hfsos,
+    hfpop,
     by = "lopnr"
   ) %>%
   mutate(tmp_hfsosdtm = INDATUM - 1) %>% # set to day BEFORE HF diagnosis (otherwise will get HF diagnos at end date)
@@ -100,71 +93,4 @@ rsdata <- rsdata %>%
     censdtm = pmin(censdtm, tmp_hfsosdtm, na.rm = TRUE),
     censdtm = pmin(censdtm, tmp_hfrsdtm, na.rm = TRUE)
   ) %>%
-  filter(censdtm >= shf_indexdtm) %>% # finns XXX poster som har sos hf diagnos, migrationsdatum, dör innan de blir controller/case. delete.
   select(-shf_deathdtm)
-
-# remove controls for NPR that no longer have a case
-
-kollcasesnpr <- rsdata %>%
-  filter(casecontrol == "Case NPR")
-
-kollcasesnpr2 <- anti_join(rsdata %>% 
-                             select(lopnr, lopnrcase, casecontrol, shf_indexdtm) %>% 
-                             filter(casecontrol == "Control NPR"),
-                           kollcasesnpr %>% 
-                             select(lopnr), 
-                   by = c("lopnrcase" = "lopnr")) %>%
-  mutate(remove = 1) %>%
-  select(-lopnrcase)
-
-
-rsdata <- left_join(rsdata, kollcasesnpr2, by = c("lopnr", "shf_indexdtm", "casecontrol")) %>%
-  filter(is.na(remove)) %>%
-  select(-remove)
-
-# n controls for cases
-
-nkontroller <- rsdata %>%
-  filter(casecontrol %in% c("Control SwedeHF", "Control NPR")) %>%
-  select(lopnrcase, casecontrol, shf_indexdtm) %>%
-  group_by(lopnrcase, casecontrol, shf_indexdtm) %>%
-  mutate(
-    ncontrols = n(),
-    tmppop = str_replace(casecontrol, "Control ", "")
-  ) %>%
-  slice(1) %>%
-  ungroup() %>%
-  select(-casecontrol)
-
-rsdata <- left_join(
-  rsdata %>%
-    mutate(tmppop = str_replace(casecontrol, "Control |Case ", "")),
-  nkontroller,
-  by = c("lopnr" = "lopnrcase", "shf_indexdtm", "tmppop")
-) %>%
-  mutate(
-    ncontrols = replace_na(ncontrols, 0)
-  )
-
-ncontrols <- full_join(
-  rsdata %>%
-    filter(casecontrol %in% c("Case SwedeHF", "Case NPR")) %>%
-    group_by(casecontrol) %>%
-    count(ncontrols) %>%
-    ungroup(),
-  rsdata %>%
-    filter(casecontrol %in% c("Case SwedeHF", "Case NPR")) %>%
-    group_by(lopnr, casecontrol) %>%
-    arrange(desc(ncontrols)) %>%
-    slice(1) %>%
-    ungroup() %>%
-    group_by(casecontrol) %>%
-    count(ncontrols) %>%
-    ungroup(),
-  by = c("ncontrols", "casecontrol")
-) %>%
-  mutate(
-    n.y = replace_na(n.y, 0)
-  )
-
-names(ncontrols) <- c("Population", "No controls", "Posts", "Unique patients")
