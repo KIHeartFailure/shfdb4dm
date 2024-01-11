@@ -130,8 +130,8 @@ rsdata <- rsdata %>%
     ),
     tmp_DURATION_OF_HF = coalesce(tmp_timedurationhf2, DURATION_OF_HF),
     shf_durationhf = case_when(
-      DURATIONHJARTSVIKT == 1 | tmp_DURATION_OF_HF == "LESS_THAN_6_MONTHS" ~ "<6mo",
-      DURATIONHJARTSVIKT == 2 | tmp_DURATION_OF_HF == "MORE_THAN_6_MONTHS" ~ ">=6mo"
+      DURATIONHJARTSVIKT == 1 | tmp_DURATION_OF_HF == "LESS_THAN_6_MONTHS" ~ "<6",
+      DURATIONHJARTSVIKT == 2 | tmp_DURATION_OF_HF == "MORE_THAN_6_MONTHS" ~ ">=6"
     ),
     shf_primaryetiology = case_when(
       PRIMARETIOLOGI == 1 | PRIMARY_ETIOLOGY == "HYPERTENSION" ~ "Hypertension",
@@ -680,14 +680,14 @@ rsdata <- rsdata %>%
       is.na(shf_durationhf_org) &
         (shf_type == "Index" | shf_source != "New SHF") ~ NA_character_,
       # is.na(shf_durationhf) ~ NA_character_,
-      shf_durationhf == ">=6mo" ~ shf_durationhf,
-      shf_indexdtm - DATE_FOR_DIAGNOSIS_HF >= 6 * 30.5 ~ ">=6mo",
-      shf_indexdtm - DATE_FOR_DIAGNOSIS_HF < 6 * 30.5 ~ "<6mo",
-      shf_durationhf == "<6mo" &
-        shf_indexdtm - tmp_indexdtm >= 6 * 30.5 ~ ">=6mo",
+      shf_durationhf == ">=6" ~ shf_durationhf,
+      shf_indexdtm - DATE_FOR_DIAGNOSIS_HF >= 6 * 30.5 ~ ">=6",
+      shf_indexdtm - DATE_FOR_DIAGNOSIS_HF < 6 * 30.5 ~ "<6",
+      shf_durationhf == "<6" &
+        shf_indexdtm - tmp_indexdtm >= 6 * 30.5 ~ ">=6",
       # make assumption that hf diagnosis is at shf_type = Index
-      shf_durationhf == "<6mo" &
-        shf_indexdtm - tmp_indexdtm < 6 * 30.5 ~ "<6mo"
+      shf_durationhf == "<6" &
+        shf_indexdtm - tmp_indexdtm < 6 * 30.5 ~ "<6"
     )
   ) %>%
   select(-contains("_org"), -d_DATE_FOR_ADMISSION, -DATE_FOR_DIAGNOSIS_HF, -tmp_indexdtm)
