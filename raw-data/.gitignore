@@ -3,3 +3,6 @@
 # Except these files
 !.gitignore
 !import-raw-data.r
+!import-raw-data_1.r
+!import-raw-data_med.r
+!lm_swedehf.sas

@@ -3,7 +3,7 @@
 demo <- demo %>%
   mutate(
     scb_countryofbirth = factor(case_when(
-      fodelselandgrupp %in% c(
+      fodelseland_EU28 %in% c(
         "Afrika",
         "Asien",
         "Nordamerika",
@@ -12,19 +12,19 @@ demo <- demo %>%
         "Sydamerika",
         "Statslos"
       ) ~ 3,
-      fodelselandgrupp %in% c(
+      fodelseland_EU28 %in% c(
         "EU28 utom Norden",
         "Europa utom EU28 och Norden",
         "Norden utom Sverige"
       ) ~ 2,
-      fodelselandgrupp == "Sverige" ~ 1
+      fodelseland_EU28 == "Sverige" ~ 1
     ), levels = 1:3, labels = c("Sweden", "Europe", "Other"))
   )
 
 rsdata <- left_join(
   rsdata,
-  demo %>% select(scb_countryofbirth, lopnr),
-  by = "lopnr"
+  demo %>% select(scb_countryofbirth, LopNr),
+  by = c("lopnr" = "LopNr")
 )
 
 child <- bind_rows(barnadop, barnbio)

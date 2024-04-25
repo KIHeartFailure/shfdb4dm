@@ -47,12 +47,11 @@ hfpopcase <- right_join(
 
 hfpopcase <- left_join(
   hfpopcase,
-  demo %>% select(lopnr, fodelseman, kon),
-  by = c("lopnr_fall" = "lopnr")
+  demo %>% select(LopNr, fodelsear, kon),
+  by = c("lopnr_fall" = "LopNr")
 ) %>%
   mutate(
-    tmpfoddtm = ymd(paste0(fodelseman, "15")),
-    shf_age = floor(as.numeric(sosindexdtm - tmpfoddtm) / 365.25),
+    shf_age = year(sosindexdtm) - as.numeric(fodelsear),
     shf_sex = factor(kon, levels = 1:2, labels = c("Male", "Female")),
     lopnr = as.numeric(lopnr_fall),
     casecontrol = 2

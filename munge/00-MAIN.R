@@ -62,6 +62,7 @@ save(
 # Add on comorbs and outcomes ---------------------------------------------
 
 source(here::here("setup/setup.R"))
+gc()
 load(paste0("./data/", datadate, "/rsdata_rs_scb.RData"))
 load(paste0("./data/", datadate, "/patreg.RData"))
 load(paste0("./data/", datadate, "/hfpop.RData"))
@@ -77,6 +78,7 @@ save(
 
 # Final touches -----------------------------------------------------------
 source(here::here("setup/setup.R"))
+gc()
 load(paste0("./data/", datadate, "/rsdata_rs_scb_sos.RData"))
 load(paste0("./data/", datadate, "/patreg.RData"))
 

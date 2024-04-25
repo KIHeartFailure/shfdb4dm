@@ -11,9 +11,9 @@ rsdata <- rsdata %>%
 flow <- bind_rows(flow, tibble(Criteria = "Exclude posts with with index date < 2000-01-01", rsdata %>% count(casecontrol) %>% pivot_wider(names_from = casecontrol, values_from = n)))
 
 rsdata <- rsdata %>%
-  filter(shf_indexdtm <= global_endcohort)
+  filter(casecontrol == "Case SwedeHF" & shf_indexdtm <= global_endcohortrs | casecontrol != "Case SwedeHF" & shf_indexdtm <= global_endcohortother)
 
-flow <- bind_rows(flow, tibble(Criteria = paste0("Exclude posts with with index date > ", global_endcohort), rsdata %>% count(casecontrol) %>% pivot_wider(names_from = casecontrol, values_from = n)))
+flow <- bind_rows(flow, tibble(Criteria = paste0("Exclude posts with with index date > ", global_endcohortrs, " (SwedeHF)/", global_endcohortother, " (NPR HF, Controls)"), rsdata %>% count(casecontrol) %>% pivot_wider(names_from = casecontrol, values_from = n)))
 
 rsdata <- rsdata %>%
   filter(shf_age >= 18 & !is.na(shf_age))

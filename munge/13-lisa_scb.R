@@ -40,7 +40,12 @@ lisa <- lisa %>%
       Sun2000niva %in% c(3, 4) ~ "Secondary school",
       Sun2000niva %in% c(5, 6, 7) ~ "University"
     ),
-    scb_dispincome = coalesce(DispInk04, DispInk)
+
+    # DispInk	Disponibel inkomst (individens delkomponent)	1999-2004	LISA
+    # DispInk04	Disponibel inkomst (individens delkomponent) - från 2020 ingår lön intjänat i annat nordiskt land	2004-2022	LISA
+    # DispInk04_INKLGP	Disponibel inkomst (individens delkomponent) - inkl. lön intjänat i annat nordiskt land	2011-2019	LISA
+
+    scb_dispincome = coalesce(DispInk04_INKLGP, DispInk04, DispInk)
   ) %>%
   select(LopNr, year, starts_with("scb_"))
 
