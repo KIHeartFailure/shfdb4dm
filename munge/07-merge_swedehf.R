@@ -211,7 +211,7 @@ rsdata <- rsdata %>%
         shf_potassium > 5 ~ 3
       ),
       levels = 1:3,
-      labels = c("Normakalemia", "Hypokalemia", "Hyperkalemia")
+      labels = c("3.5-5 (Normakalemia)", "<3.5 (Hypokalemia)", ">5 (Hyperkalemia)")
     ),
     shf_sodium = coalesce(S_SODIUM_24H, S_SODIUM, NATRIUM),
     shf_sodium_admvisit = S_SODIUM,
