@@ -71,7 +71,7 @@ write_dta(rsdata,
   path = paste0("./data/v", version, "/rsdata", version, ".dta"),
   version = 14
 )
-write_dta(rsdata,
+write_dta(hfh,
   path = paste0("./data/v", version, "/hfh", version, ".dta"),
   version = 14
 )

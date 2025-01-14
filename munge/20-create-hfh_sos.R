@@ -5,7 +5,7 @@ svpatreg <- patreg %>%
   filter(stringr::str_detect(HDIA, global_hficd))
 
 rsdatatmp <- rsdatafull %>%
-  select(lopnr, shf_indexdtm, censdtm) %>%
+  select(lopnr, shf_indexdtm) %>%
   group_by(lopnr) %>%
   arrange(shf_indexdtm) %>%
   slice(1) %>%
@@ -34,6 +34,6 @@ hfh <- left_join(
     select(lopnr, INDATUM),
   by = "lopnr"
 ) %>%
-  filter(INDATUM > shf_indexdtm & INDATUM <= censdtm) %>%
+  filter(INDATUM > shf_indexdtm & INDATUM <= global_endfollowup) %>%
   rename(sos_out_hfhdtm = INDATUM) %>%
   select(lopnr, sos_out_hfhdtm)
