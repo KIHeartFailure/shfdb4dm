@@ -19,10 +19,15 @@ save(
 
 # Version number
 
-version <- "421"
+version <- "422"
 
 assign(paste0("rsdata", version), rsdata)
 assign(paste0("rsdatafull", version), rsdatafull)
+
+# alla hfh
+
+assign(paste0("hfh", version), hfh)
+assign(paste0("hfhfull", version), hfhfull)
 
 dir.create(paste0("./data/v", version))
 
@@ -44,6 +49,15 @@ save(
   list = c(paste0("rsdatafull", version))
 )
 
+save(
+  file = paste0("./data/v", version, "/hfh", version, ".RData"),
+  list = c(paste0("hfh", version))
+)
+save(
+  file = paste0("./data/v", version, "/hfhfull", version, ".RData"),
+  list = c(paste0("hfhfull", version))
+)
+
 # Txt
 
 write.table(rsdata,
@@ -55,5 +69,9 @@ write.table(rsdata,
 
 write_dta(rsdata,
   path = paste0("./data/v", version, "/rsdata", version, ".dta"),
+  version = 14
+)
+write_dta(rsdata,
+  path = paste0("./data/v", version, "/hfh", version, ".dta"),
   version = 14
 )

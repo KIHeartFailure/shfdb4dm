@@ -209,10 +209,30 @@ rsdata <- create_sosvar(
   sosdate = INDATUM,
   diavar = DIA_all,
   opvar = OP_all,
+  evar = ekod_all,
   type = "com",
   name = "renal",
-  diakod = " N1[7-9]| Z491| Z492",
-  opkod = " KAS00| KAS10| KAS20| DR014| DR015| DR016| DR020| DR012| DR013| DR023| DR024| TJA33| TJA35",
+  ekod = "Y841",
+  diakod = " N18| N19| Z491| Z492| T824| Z490| Z992| I120| I130| I131| I132| N085| M103| E122| E112| E132| E102| E142| R944| N0[2-4]| N0[6-8]| N25| N11| N1[4-6]| Q61[1-3]| Q6[0-4]| K767",
+  opkod = " DR014| DR016| DR020| DR012| DR013| DR024| TJA33| TJA35| DR055| DR056| DR060| DR061| QF006",
+  stoptime = -5 * 365.25,
+  valsclass = "fac",
+  warnings = FALSE
+)
+rsdata <- create_sosvar(
+  sosdata = patreg,
+  cohortdata = rsdata,
+  patid = lopnr,
+  indexdate = shf_indexdtm,
+  add_unique = casecontrol,
+  sosdate = INDATUM,
+  diavar = DIA_all,
+  opvar = OP_all,
+  type = "com",
+  name = "dialysis",
+  diakod = " Z490| Z491| Z492| Z992",
+  opkod = " DR012| DR013| DR014| DR016| DR020| DR024| TJA33| DR055| DR056| DR060| DR061| QF006",
+  # add when available: SP342| SP352| SP362| JAK10| DJ008| DK001
   stoptime = -5 * 365.25,
   valsclass = "fac",
   warnings = FALSE
@@ -243,23 +263,6 @@ rsdata <- create_sosvar(
   type = "com",
   name = "hypokalemia",
   diakod = " E876",
-  stoptime = -5 * 365.25,
-  valsclass = "fac",
-  warnings = FALSE
-)
-rsdata <- create_sosvar(
-  sosdata = patreg,
-  cohortdata = rsdata,
-  patid = lopnr,
-  indexdate = shf_indexdtm,
-  add_unique = casecontrol,
-  sosdate = INDATUM,
-  diavar = DIA_all,
-  opvar = OP_all,
-  type = "com",
-  name = "dialysis",
-  diakod = " Z491| Z492",
-  opkod = " DR014| DR015| DR016| DR020| DR012| DR013| DR023| DR024| TJA33| TJA35",
   stoptime = -5 * 365.25,
   valsclass = "fac",
   warnings = FALSE
@@ -609,6 +612,7 @@ rsdata <- create_sosvar(
   valsclass = "fac",
   warnings = FALSE
 )
+
 rsdata <- create_sosvar(
   sosdata = patreg %>% filter(sos_source == "sv"),
   cohortdata = rsdata,
@@ -619,9 +623,29 @@ rsdata <- create_sosvar(
   diavar = HDIA,
   opvar = OP_all,
   type = "out",
-  name = "hosprenal",
-  diakod = " N1[7-9]| KAS00| KAS10| KAS20| Z491| Z492",
-  opkod = " DR014| DR015| DR016| DR020| DR012| DR013| DR023| DR024| TJA33| TJA35",
+  name = "hosprenalacute",
+  diakod = " N17| N184| N185| Z491| Z492",
+  opkod = " DR014| DR015| DR016| DR020| DR023| DR024| DR055| DR056",
+  # to add when available SP311| SP341| SP351| SP361
+  censdate = censdtm,
+  valsclass = "fac",
+  warnings = FALSE
+)
+
+rsdata <- create_sosvar(
+  sosdata = patreg,
+  cohortdata = rsdata,
+  patid = lopnr,
+  indexdate = shf_indexdtm,
+  add_unique = casecontrol,
+  sosdate = INDATUM,
+  diavar = DIA_all,
+  opvar = OP_all,
+  type = "out",
+  name = "renalendstage",
+  diakod = " Z940| Z491| Z492| Z992| Z490",
+  opkod = " KAS10| KAS20| DR01[2-4]| DR016| DR020| DR024| TJA33| DR055| DR056| DR060| DR061| QF006",
+  # to add when available SP342| SP352| SP362| JAK10| DJ008| DK001
   censdate = censdtm,
   valsclass = "fac",
   warnings = FALSE

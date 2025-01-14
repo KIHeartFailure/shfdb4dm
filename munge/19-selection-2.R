@@ -13,7 +13,6 @@ flow <- flow %>%
     `Case SwedeHF` = nrow(rsdata)
   )
 
-
 flow <- flow %>%
   add_row(
     Criteria = "Unique patients",

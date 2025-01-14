@@ -85,7 +85,8 @@ load(paste0("./data/", datadate, "/patreg.RData"))
 source("./munge/17-recat.R")
 source("./munge/18-niceties.R")
 source("./munge/19-selection-2.R")
-source("./munge/20-save.R")
+source("./munge/20-create-hfh_sos.R")
+source("./munge/21-save.R")
 
 save(
   file = paste0("./data/", datadate, "/rsdata.RData"),
